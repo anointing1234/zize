@@ -35,7 +35,7 @@ SECRET_KEY = 'django-insecure-+u+ln9g&y=s)^id!so2i@&97kdfz&p%i&7j^bzqahom7!*7j%5
 DEBUG = True
 
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["zetasassisrl.com "]
+ALLOWED_HOSTS = ["zetasassisrl.com"]
 CSRF_TRUSTED_ORIGINS = ["https://zetasassisrl.com"]
 
 
