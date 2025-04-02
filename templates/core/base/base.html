@@ -39,10 +39,21 @@
     <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+ <style>
+    .mt-3, .mt-5 {
+        margin-top: 1rem !important;  /* Force Bootstrap margin */
+    }
+    .mb{
+        margin-bottom:1rem !important;  
+    }
     
+ </style>
 
 </head>
 <body>
+
 
 
         {% include "../sections/navbar.html" %}
@@ -61,12 +72,11 @@
 		<script src="{% static 'js/nouislider.min.js' %}"></script>
 		<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 		<script src="{% static 'js/main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
+ 
 
 
-
-    
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
- <script>
+<script>
      document.querySelectorAll(".add-to-cart-btn").forEach(button => {
          button.addEventListener("click", function () {
              const btn = this;
@@ -143,7 +153,6 @@
  
  
  
- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>                
  
  <script>

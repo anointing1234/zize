@@ -5,48 +5,40 @@
 
 <!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-12 text-center">
                 <h3 class="breadcrumb-header">Account</h3>
                 <ul class="breadcrumb-tree">
                     <li class="active"></li>
                 </ul>
             </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
 </div>
 <!-- /BREADCRUMB -->
 
 <!-- SECTION -->
-<div class="section">
-    <!-- container -->
+<div style="padding:20px" class="section">
     <div class="container">
-        <!-- row -->
         <div class="row">
             <!-- Sign In -->
-            <div class="col-lg-6 col-md-6 mb-4">
+            <div style="padding:30px;" class="col-lg-6 col-md-12 mb-4">
                 <div class="card">
-                    <div class="card-header text-center">
+                    <div class="card-header">
                         <h3 class="mb-0">Sign In</h3>
                     </div>
                     <div class="card-body">
                         <form method="post" id="LoginForm" onsubmit="return handleLogin(event);">
                             {% csrf_token %}
-                            <div class="form-group">
-                                <label for="singin-email-2">Email address</label>
+                            <div class="form-group mb-3">
                                 {{ login_form.email }}
                             </div><!-- End .form-group -->
-                            <div class="form-group">
-                                <label for="singin-password-2">Password</label>
+                            <div class="form-group mb-3">
                                 {{ login_form.password }}
                             </div><!-- End .form-group -->
-                            <div class="form-footer">
-                                <button type="submit" class="btn btn-outline-primary-2">
+                            <div class="form-footer mb-3">
+                                <button type="submit" class="btn btn-outline-primary-2 mb-3">
                                     <span>LOG IN</span>
                                     <i class="icon-long-arrow-right"></i>
                                 </button>
@@ -57,29 +49,26 @@
                                 <a href="{% url 'forgot_password' %}" class="forgot-link d-block mt-2">Forgot Your Password?</a>
                             </div><!-- End .form-footer -->
                         </form>
-                    </div>
-                </div>
+                    </div><!-- End .card-body -->
+                </div><!-- End .card -->
             </div>
 
             <!-- Sign Up -->
-            <div class="col-lg-6 col-md-6 mb-4">
+            <div style="padding:30px;"  class="col-lg-6 col-md-12 mb-4">
                 <div class="card">
-                    <div class="card-header text-center">
+                    <div class="card-header">
                         <h3 class="mb-0">Sign Up</h3>
                     </div>
                     <div class="card-body">
                         <form method="post" id="signupform" onsubmit="return signup(event);">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label for="register-email-2">Your email address</label>
                                 {{ register_form.email }}
                             </div><!-- End .form-group -->
                             <div class="form-group">
-                                <label for="register-username-2">Username</label>
                                 {{ register_form.username }}
                             </div><!-- End .form-group -->
                             <div class="form-group">
-                                <label for="register-password-2">Password</label>
                                 {{ register_form.password }}
                             </div><!-- End .form-group -->
                             <div class="form-footer">
@@ -95,42 +84,29 @@
                                 </div><!-- End .custom-checkbox -->
                             </div><!-- End .form-footer -->
                         </form>
-                    </div>
-                </div>
+                    </div><!-- End .card-body -->
+                </div><!-- End .card -->
             </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
+        </div><!-- End .row -->
+    </div><!-- End .container -->
 </div>
 <!-- /SECTION -->
 
-
-
-
-
+<!-- SweetAlert2 Assets -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 <script>
     function signup(event) {
-        event.preventDefault(); // Prevent default form submission behavior
-
-        // Display a loading spinner with SweetAlert2
+        event.preventDefault();
         Swal.fire({
             title: 'Processing...',
             text: 'Please wait while we process your registration.',
             allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+            didOpen: () => { Swal.showLoading(); }
         });
-
-        // Collect form data from the signupform
         const form = document.getElementById('signupform');
         const formData = new FormData(form);
-
-        // Send data to the server
         fetch("{% url 'register' %}", {
             method: 'POST',
             body: formData,
@@ -140,25 +116,19 @@
             }
         })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then((data) => {
-            Swal.close(); // Close the loading spinner
+            Swal.close();
             if (data.success) {
-                // Show success message
                 Swal.fire({
                     icon: 'success',
                     title: 'Registration Successful!',
                     text: data.message || 'You have successfully registered!',
                     confirmButtonText: 'Okay'
-                }).then(() => {
-                    window.location.href = data.redirect_url; // Redirect to the next page
-                });
+                }).then(() => { window.location.href = data.redirect_url; });
             } else {
-                // Show error message
                 Swal.fire({
                     icon: 'error',
                     title: 'Registration Failed',
@@ -181,19 +151,13 @@
 
     function handleLogin(event) {
         event.preventDefault();
-
-        // Show loading spinner
         Swal.fire({
             title: 'Logging in...',
             text: 'Please wait while we verify your details.',
             allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+            didOpen: () => { Swal.showLoading(); }
         });
-
         const formData = new FormData(document.getElementById('LoginForm'));
-
         fetch("{% url 'login_view' %}", {
             method: 'POST',
             body: formData,
@@ -204,16 +168,14 @@
         })
         .then((response) => response.json())
         .then((data) => {
-            Swal.close(); // Close the loading message
+            Swal.close();
             if (data.success) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Welcome!',
                     text: data.message || 'You have successfully logged in!',
                     confirmButtonText: 'Okay'
-                }).then(() => {
-                    window.location.href = data.redirect_url;
-                });
+                }).then(() => { window.location.href = data.redirect_url; });
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -224,37 +186,33 @@
             }
         });
     }
-
+    
     // Password toggle visibility for login
     const togglePasswordLogin = document.getElementById('togglePasswordLogin');
     const passwordInputLogin = document.querySelector('[name="password"]');
     const eyeIconLogin = document.getElementById('eyeIconLogin');
-
     if (togglePasswordLogin && passwordInputLogin) {
         togglePasswordLogin.addEventListener('click', function () {
             const type = passwordInputLogin.type === 'password' ? 'text' : 'password';
             passwordInputLogin.type = type;
-
             if (type === 'password') {
                 eyeIconLogin.classList.remove('bi-eye-slash');
                 eyeIconLogin.classList.add('bi-eye');
             } else {
                 eyeIconLogin.classList.remove('bi-eye');
-                eyeIconLogin.classList.add('bi-eye-sl ash');
+                eyeIconLogin.classList.add('bi-eye-slash');
             }
         });
     }
-
+    
     // Password toggle visibility for registration
     const togglePasswordRegister = document.getElementById('togglePasswordRegister');
     const passwordInputRegister = document.querySelector('[name="password2"]');
     const eyeIconRegister = document.getElementById('eyeIconRegister');
-
     if (togglePasswordRegister && passwordInputRegister) {
         togglePasswordRegister.addEventListener('click', function () {
             const type = passwordInputRegister.type === 'password' ? 'text' : 'password';
             passwordInputRegister.type = type;
-
             if (type === 'password') {
                 eyeIconRegister.classList.remove('bi-eye-slash');
                 eyeIconRegister.classList.add('bi-eye');
@@ -264,21 +222,17 @@
             }
         });
     }
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      // Activate the Sign In tab by default
-      const signinTab = document.getElementById('signin-tab');
-      const registerTab = document.getElementById('register-tab');
-      const signinPane = document.getElementById('signin');
-      const registerPane = document.getElementById('register');
-
-      signinTab.classList.add('active');
-      registerTab.classList.remove('active');
-      signinPane.classList.add('show', 'active');
-      registerPane.classList.remove('show', 'active');
-  });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const signinTab = document.getElementById('signin-tab');
+        const registerTab = document.getElementById('register-tab');
+        const signinPane = document.getElementById('signin');
+        const registerPane = document.getElementById('register');
+        signinTab.classList.add('active');
+        registerTab.classList.remove('active');
+        signinPane.classList.add('show', 'active');
+        registerPane.classList.remove('show', 'active');
+    });
 </script>
 
 {% endblock contents %}

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from accounts.models import Account,WrittenReview
+from accounts.models import Account, WrittenReview
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
 import re
@@ -26,21 +26,18 @@ class RegisterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Update widget attributes including the IDs used in your template
+        # Update widget attributes with Bootstrap 4 classes
         self.fields['email'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your email',
             'id': 'register-email-2'
         })
         self.fields['username'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your username'
         })
         self.fields['password'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Create a password',
             'id': 'register-password-2'
         })
@@ -73,16 +70,14 @@ class LoginForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Update widget attributes including IDs matching the template
+        # Update widget attributes with Bootstrap 4 classes
         self.fields['email'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your email',
             'id': 'singin-email-2'
         })
         self.fields['password'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your password',
             'id': 'singin-password-2'
         })
@@ -99,8 +94,6 @@ class LoginForm(forms.Form):
     def get_user(self):
         return self.user_cache
 
-   
-
 
 class SendresetcodeForm(forms.Form):
     email = forms.EmailField(
@@ -110,10 +103,9 @@ class SendresetcodeForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Set Bootstrap classes and placeholders
+        # Set Bootstrap 4 classes and placeholders
         self.fields['email'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your email'
         })
 
@@ -123,8 +115,6 @@ class SendresetcodeForm(forms.Form):
         if not User.objects.filter(email=email).exists():
             raise ValidationError('No user is associated with this email address.')
         return email
-    
-
 
 
 class PasswordResetForm(forms.Form):
@@ -150,25 +140,21 @@ class PasswordResetForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Set Bootstrap classes and placeholders
+        # Set Bootstrap 4 classes and placeholders
         self.fields['email'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your email'
         })
         self.fields['reset_code'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your reset code'
         })
         self.fields['new_password'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Enter your new password'
         })
         self.fields['confirm_password'].widget.attrs.update({
-            'class': 'input',
-            'style': 'border: 1px solid black;',
+            'class': 'form-control',
             'placeholder': 'Confirm your new password'
         })
 
@@ -181,7 +167,6 @@ class PasswordResetForm(forms.Form):
             raise ValidationError("The two password fields must match.")
 
         return cleaned_data
-
 
 
 class ReviewForm(forms.ModelForm):
@@ -213,6 +198,6 @@ class ReviewForm(forms.ModelForm):
         for i in range(1, 6):  # 1 to 5 stars
             stars_html += f'''
                 <input type="radio" id="star-{i}" name="stars" value="{i}" required>
-                <label for="star-{i}" class="star">&#9733;</label>  <!-- Unicode star character -->
+                <label for="star-{i}" class="star">&#9733;</label>
             '''
         return stars_html

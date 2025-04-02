@@ -172,7 +172,7 @@
 <!-- /SECTION -->
 
 <!-- Section for Related Products -->
-<div class="section">
+<div class="section mt-3">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -202,12 +202,13 @@
                         </div>
                     </div>
                     <div class="add-to-cart">
-                        <button class="add-to-cart-btn" type="button"
-                                data-product-id="{{ product.id }}"
-                                data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
-                                data-csrf-token="{{ csrf_token }}">
-                            <i class="fa fa-shopping-cart"></i> add to cart
-                        </button>
+                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                        data-product-id="{{ product.id }}"
+                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                        data-csrf-token="{{ csrf_token }}">
+                    <span class="btn-text">add to cart</span>
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                </button>
                     </div>
                 </div>
             </div>
