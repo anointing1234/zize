@@ -1,0 +1,158 @@
+{% load static %}
+<!-- HEADER -->
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-right">
+                <li><a href="#"><i class="fa fa-euro"></i>Euru</a></li>
+                <li><a href="{% url 'authenticate' %}"><i class="fa fa-user-o"></i> My Account</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="{% url 'home' %}" class="logo">
+                            <img style="width:150px;" src="{% static 'logo/zet_wh.webp' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form class="search-form" action="{% url 'product_search' %}" method="GET">
+                            <input class="search-input"  name="search" placeholder="Search here">
+                            <button type="submit" class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+
+
+
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+                        <!-- Cart -->
+                        <div class="dropdown">
+                            <a href="{% url 'cart' %}" class="dropdown-toggle"  aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <div class="qty cart-count"  id="cart-count1">0</div>
+                            </a>
+                        </div>
+                        <!-- /Cart -->
+                         
+            
+
+                        <!-- Menu Toggle -->
+                        <div class="menu-toggle">
+                            <a href="#" id="menu-toggle">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toggle -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+        </div>
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
+
+<!-- NAVIGATION -->
+<nav id="navigation" class="sidebar">
+    <!-- container -->
+    <div class="container">
+        <div id="responsive-nav">
+            <!-- Close Button -->
+           
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'terms_condition' %}">About</a></li>
+                <li><a href="{% url 'refund_policy' %}">Refund Policy</a></li>
+                <li><a href="{% url 'Digital' %}">Electronic Store</a></li>
+                <li><a href="{% url 'Amplifiers' %}">Amplifiers</a></li>
+                <li><a href="{% url 'Digital' %}">Digital</a></li>
+                <li><a href="{% url 'Loudspeakers' %}">Loudspeakers</a></li>
+                <li><a href="{% url 'Mixer_Console' %}">Mixer Console</a></li>
+                <li><a href="{% url 'Turntables' %}">Turntables</a></li>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'myorders' %}">Orders</a></li>
+                {% endif %}
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                {% if not request.user.is_authenticated %}
+                {% else %}
+                {% endif %}
+            </ul>
+            <!-- /NAV -->
+        </div>
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+
+<style>
+    .search-form {
+        display: inline-block; /* Keep the form inline */
+        width: 100%; /* Full width */
+    }
+
+    .search-input {
+        width: calc(100% - 100px); /* Full width minus button width */
+        border-radius: 5px 0 0 5px; /* Rounded corners on the left */
+        border: 1px solid #ccc; /* Optional: Add a border */
+        padding: 10px; /* Optional: Add some padding */
+        box-sizing: border-box; /* Include padding and border in width */
+    }
+
+    .search-btn {
+        width: 100px; /* Fixed width for the button */
+        border-radius: 0 5px 5px 0; /* Rounded corners on the right */
+        background-color: red; /* Red background */
+        color: white; /* White text */
+        border: none; /* Remove border */
+        padding: 10px; /* Optional: Add some padding */
+        cursor: pointer; /* Change cursor to pointer */
+    }
+
+    .search-btn:hover {
+        background-color: darkred; /* Darker red on hover */
+    }
+
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to fetch the cart count
+        function updateCartCount() {
+            fetch("{% url 'get_cart_count' %}")  // Replace 'get_cart_count' with your actual URL name
+                .then(response => response.json())
+                .then(data => {
+                    const cartCountElement = document.getElementById("cart-count1");
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.cart_count; // Update the cart count
+                    }
+                })
+                .catch(error => console.error("Error fetching cart count:", error));
+        }
+
+        // Call updateCartCount on page load
+        updateCartCount();
+
+        // Optionally, re-fetch cart count at intervals or trigger it on specific actions
+    });
+
+</script>

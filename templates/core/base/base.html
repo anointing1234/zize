@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- SEO Meta Tags -->
+    <title>ZETA-SASSI S.R.L. | Innovative Electronic Solutions</title>
+    <meta name="description" content="ZETA-SASSI S.R.L. provides innovative electronic solutions, specializing in high-quality technology products and services tailored to your needs.">
+    <meta name="keywords" content="ZETA-SASSI, electronic solutions, technology products, innovative electronics, electronics services, custom electronics">
+    <meta name="author" content="ZETA-SASSI S.R.L.">
+
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="ZETA-SASSI S.R.L. | Innovative Electronic Solutions">
+    <meta property="og:description" content="Explore our innovative electronic solutions tailored to meet your needs.">
+    <meta property="og:image" content="http://zetasassisrl.com/static/images/logo.png"> <!-- Replace with your actual image URL -->
+    <meta property="og:url" content="http://zetasassisrl.com">
+    <meta property="og:type" content="website">
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/slick.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/slick-theme.css' %}"/>
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/nouislider.min.css' %}"/>
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+    <!-- Custom stylesheet -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  
+    
+
+</head>
+<body>
+
+
+        {% include "../sections/navbar.html" %}
+        {% block contents %}{% endblock contents %}
+        {% include "../sections/footer.html" %} 
+      
+
+
+        
+
+        
+		<!-- jQuery Plugins -->
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/slick.min.js' %}"></script>
+		<script src="{% static 'js/nouislider.min.js' %}"></script>
+		<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
+		<script src="{% static 'js/main.js' %}"></script>
+
+
+
+    
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
+ <script>
+     document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+         button.addEventListener("click", function () {
+             const btn = this;
+             const spinner = btn.querySelector(".spinner-border");
+             const btnText = btn.querySelector(".btn-text");
+             const productId = btn.getAttribute("data-product-id");
+             const csrfToken = btn.getAttribute("data-csrf-token");
+             const addToCartUrl = btn.getAttribute("data-add-to-cart-url");
+ 
+             if (!addToCartUrl || !productId) {
+                 console.error("Product ID or Add-to-Cart URL is missing");
+                 return;
+             }
+ 
+             // ✅ Show spinner
+             spinner.classList.remove("d-none");
+             btnText.textContent = "Adding...";
+             btn.disabled = true;
+ 
+             fetch(addToCartUrl, {
+                 method: "POST",
+                 headers: {
+                     "Content-Type": "application/json",
+                     "X-CSRFToken": csrfToken
+                 },
+                 body: JSON.stringify({ product_id: productId })
+             })
+             .then(response => {
+                 if (response.ok) {
+                     return response.json();
+                 } else {
+                     // Handle non-200 responses
+                     return response.json().then(errorData => {
+                         throw new Error(errorData.error || "Failed to add to cart");
+                     });
+                 }
+             })
+             .then(data => {
+                 btn.disabled = false;
+                 spinner.classList.add("d-none");
+ 
+                 // 🎉 Show SweetAlert success message with reload
+                 Swal.fire({
+                     icon: 'success',
+                     title: 'Added to Cart!',
+                     text: 'The product has been added to your cart.',
+                     timer: 2000,
+                     showConfirmButton: false
+                 }).then(() => {
+                     window.location.reload(); // ✅ Reload page after alert closes
+                 });
+             })
+             .catch(error => {
+                 console.error("Error:", error);
+                 btn.disabled = false;
+                 spinner.classList.add("d-none");
+ 
+                 // Check if the error message indicates that login is required
+                 if (error.message === "Login is required to add items to the cart.") {
+                     // Redirect to the authentication URL
+                     window.location.href = "{% url 'authenticate' %}"; // Replace with your actual authentication URL
+                 } else {
+                     // ❌ Show SweetAlert error message
+                     Swal.fire({
+                         icon: 'error',
+                         title: 'Oops!',
+                         text: error.message, // Show the error message from the server
+                     });
+                 }
+             });
+         });
+     });
+ </script>
+ 
+ 
+ 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>                
+ 
+ <script>
+     document.addEventListener("DOMContentLoaded", function () {
+         // Random names (30 names)
+         const names = [
+             "Toby", "Sarah", "James", "Emily", "Michael", "Jessica", "Daniel", "Sophia", "Chris", "Olivia",
+             "William", "Emma", "Benjamin", "Ava", "Alexander", "Isabella", "Ethan", "Mia", "Matthew", "Charlotte",
+             "Henry", "Amelia", "Samuel", "Harper", "Joseph", "Evelyn", "David", "Abigail", "Andrew", "Madison"
+         ];
+ 
+         // Random product prices (higher values for electronics)
+         const amounts = [30000,24000,4000,5000,6000,7000,8000,9000,2000,4000,12000,3000,4000,1000];   
+         
+         // Toast positions
+         const positions = [
+             { gravity: "top", position: "left" },
+             { gravity: "top", position: "right" },
+             { gravity: "bottom", position: "left" },
+             { gravity: "bottom", position: "right" }
+         ];
+ 
+         function showFakeAddToCart() {
+             // Pick random name and amount
+             let name = names[Math.floor(Math.random() * names.length)];
+             let amount = amounts[Math.floor(Math.random() * amounts.length)];
+             // Format the amount with commas
+             let formattedAmount = amount.toLocaleString();
+             let position = positions[Math.floor(Math.random() * positions.length)];
+ 
+             // Create Toastify notification
+             Toastify({
+                 text: `🛒 ${name} added an item worth €${formattedAmount} to the cart!`,
+                 duration: 5000, // Display time
+                 gravity: position.gravity, // "top" or "bottom"
+                 position: position.position, // "left" or "right"
+                 backgroundColor: "#fff", // White background
+                 className: "custom-toast", // Custom class
+                 stopOnFocus: false, // Do not pause on hover
+                 style: {
+                     color: "#000", // Black text
+                     fontSize: "14px",
+                     fontWeight: "bold",
+                     borderRadius: "8px",
+                     padding: "12px 20px",
+                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)"
+                 }
+             }).showToast();
+         }
+ 
+         // Run fake additions to cart automatically every 10 seconds
+         function startFakeAdditions() {
+             showFakeAddToCart(); // Show first notification immediately
+             setInterval(() => {
+                 showFakeAddToCart();
+             }, 8000); // Interval set to 8 seconds (8000ms)
+         }
+ 
+         startFakeAdditions(); // Start the function
+     });
+ </script>
+ 
+
+
+
+	</body>
+</html>

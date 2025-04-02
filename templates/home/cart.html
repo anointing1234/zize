@@ -1,0 +1,233 @@
+{% extends "../core/base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block contents %}
+
+
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .table th, .table td {
+        padding: 10px;
+        text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+        .table thead {
+            display: none; /* Hide the header on small screens */
+        }
+    
+        .table, .table tbody, .table tr, .table td {
+            display: block; /* Make each row a block */
+            width: 100%; /* Full width */
+        }
+    
+        .table tr {
+            margin-bottom: 15px; /* Space between rows */
+        }
+    
+        .table td {
+            text-align: left; /* Align text to the left */
+            position: relative; /* Position for pseudo-elements */
+            padding-left: 50%; /* Space for pseudo-elements */
+        }
+    
+        .table td::before {
+            content: attr(data-title); /* Use data-title for labels */
+            position: absolute;
+            left: 10px; /* Positioning */
+            width: 45%; /* Width of the label */
+            padding-right: 10px; /* Space between label and content */
+            white-space: nowrap; /* Prevent wrapping */
+            font-weight: bold; /* Bold for labels */
+        }
+    }
+</style>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="breadcrumb-header">Shopping Cart</h4>
+                <ul class="breadcrumb-tree">
+                    <li><a href="{% url 'home' %} ">Home</a></li>
+                    <li class="active">Cart</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <div class="container">
+        <div class="row">
+            {% if cart_items %}
+            <div class="col-lg-9 col-12">
+                <table class="table table-bordered ">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr data-item-id="{{ item.id }}">
+                            <td class="product-col">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <figure class="product-media">
+                                        <a href="{% url 'product_detail' item.product.id %}">
+                                            <img src="{{ item.product.image.url }}" alt="Product image" class="img-fluid" style="max-width: 100px;">
+                                        </a>
+                                    </figure>
+                                    <h5 class="product-title mt-5" style="font-size: 10px; padding:20px;">
+                                        <a href="#">{{ item.product.name|upper }}</a>
+                                    </h5>
+                                </div>
+                            </td>
+                            <td  style="display: flex; align-items: center;" class="price-col text-center">
+                               <span> €{{ item.product.price|floatformat:2|intcomma }}</span>
+                            </td>
+                            <td class="quantity-col">
+                                <div class="cart-product-quantity" style="display: flex; flex-direction: column; align-items: center;">
+                                    <div class="input-number">
+                                        <input id="quantity-{{ item.id }}" class="form-control input-number__input" 
+                                               type="number" min="1" value="{{ item.quantity }}" style="width: 60px; text-align: center;" />
+                                    </div>
+                                    <!-- Place the buttons in a separate container below the input -->
+                                    <div style="display: flex; align-items: center; margin-top: 5px;">
+                                        <!-- Decrease button with a visible "-" sign -->
+                                        <div class="input-number__sub decrease-quantity" data-item-id="{{ item.id }}" 
+                                             style="cursor: pointer; height: 24px; padding: 2px 6px; background: #eee; border: 1px solid #ccc; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+                                            -
+                                        </div>
+                                        <!-- Increase button with a visible "+" sign -->
+                                        <div class="input-number__add increase-quantity" data-item-id="{{ item.id }}" 
+                                             style="cursor: pointer; height: 24px; padding: 2px 6px; background: #eee; border: 1px solid #ccc; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-left: 5px;">
+                                            +
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td  style="display: flex; align-items: center;" class="total-col text-center"  id="total-{{ item.id }}">
+                               <span> €{{ item.total_price|floatformat:2|intcomma }}</span>
+                            </td>
+                            <td   style="display: flex; align-items: center;" class="remove-col text-center">
+                                <button class="btn btn-danger btn-sm remove-item" data-item-id="{{ item.id }}">
+                                    <i class="icon-close"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cart summary section -->
+            <aside class="col-lg-3 col-12">
+                <div class="summary summary-cart card">
+                    <div class="card-body">
+                        <h3 class="summary-title">Cart Total</h3>
+                        <table class="table table-summary">
+                            <tbody>
+                                <tr class="summary-subtotal">
+                                    <td>Shipping fee:</td>
+                                    <td>€{{ shipping_total|floatformat:2|intcomma }}</td>
+                                </tr>
+                                <tr class="summary-total">
+                                    <td>Total:</td>
+                                    <td>€{{ total|floatformat:2|intcomma }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="btn btn-primary btn-lg btn-block" href="{% url 'checkout_view' %}">Proceed to checkout</a>
+                    </div>
+                </div>
+                <a href="{% url 'home' %}" class="btn btn-outline-dark btn-block mt-3">
+                    <span>Continue Shopping</span>
+                    <i class="icon-refresh"></i>
+                </a>
+            </aside>
+
+            {% else %}
+            <div class="cart-empty-message text-center py-5">
+                <h3>Your cart is empty</h3>
+                <p>There are no items in your cart currently.</p>
+                <a href="{% url 'home' %}" class="btn btn-outline-dark">
+                    Continue Shopping
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- /SECTION -->
+ 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+         // Increase quantity
+        $('.increase-quantity').on('click', function() {
+             var itemId = $(this).data('item-id'); // Get the item ID
+            $.ajax({
+                 url: "{% url 'increase' 0 %}".replace('0', itemId), // Replace '0' with itemId dynamically
+                 method: 'POST',
+                 data: {
+                     csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF token for POST request
+                 },
+                 success: function() {
+                     setTimeout(function() {
+                         location.reload(); // Reload the page after a slight delay
+                     }, 100); // Delay in milliseconds
+                 }
+             });
+         });
+ 
+         // Decrease quantity
+        $('.decrease-quantity').on('click', function() {
+             var itemId = $(this).data('item-id'); // Get the item ID
+            $.ajax({
+                 url: "{% url 'decrease' 0 %}".replace('0', itemId), // Replace '0' with itemId dynamically
+                 method: 'POST',
+                 data: {
+                     csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF token for POST request
+                 },
+                 success: function() {
+                     setTimeout(function() {
+                         location.reload(); // Reload the page after a slight delay
+                     }, 100); // Delay in milliseconds
+                 }
+             });
+         });
+ 
+         // Remove item from cart
+        $('.remove-item').on('click', function() {
+             var itemId = $(this).data('item-id'); // Get the item ID
+            $.ajax({
+                 url: "{% url 'remove' 0 %}".replace('0', itemId), // Replace '0' with itemId dynamically
+                 method: 'POST',
+                 data: {
+                     csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF token for POST request
+                 },
+                 success: function() {
+                     setTimeout(function() {
+                         location.reload(); // Reload the page after a slight delay
+                     }, 100); // Delay in milliseconds
+                 }
+             });
+         });
+     });
+ </script>
+ 
+
+{% endblock contents %}

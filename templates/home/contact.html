@@ -1,0 +1,223 @@
+{% extends "../core/base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block contents %}
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Contact us</h3>
+                <ul class="breadcrumb-tree">
+                    <li class="breadcrumb-item"><a href="  {% url 'home' %}">Home</a></li>
+                        
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+
+<!-- /SECTION -->
+    <!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+       
+                	<div class="row">
+                		<div class="col-lg-6 mb-3 mb-lg-0">
+                            <h2 class="title mb-1">Contact Information</h2><!-- End .title mb-2 -->
+                            <p class="mb-3">
+                                For any inquiries about our products or services, please feel free to reach out. At 
+ZETA-SASSI S.R.L., we are dedicated to providing you with expert assistance and prompt responses. Whether you need technical support or have questions about our latest 
+ZETA-SASSI solutions, our team is here to help.
+                            </p>
+                            <div class="row">
+                				<div class="col-sm-7">
+                					<div class="contact-info">
+                						<h3>The Office</h3>
+
+                						<ul class="contact-list">
+                							<li>
+                                                VIA BARSANTI EUGENIO 2/A
+
+                                                <br>
+                                                43122 PARMA PR ITALY
+
+                                                <br>
+                                                01606950341
+
+	                						</li>
+                						
+                							<li>
+                								<i class="icon-envelope"></i>
+                								<a href="mailto:#">info@zetasassisrl.com</a>
+                							</li>
+                						</ul><!-- End .contact-list -->
+                					</div><!-- End .contact-info -->
+                				</div><!-- End .col-sm-7 -->
+
+                				<div class="col-sm-5">
+                					<div class="contact-info">
+                						<h3>The Office</h3>
+
+                						<ul class="contact-list">
+                							<li>
+                								<i class="icon-clock-o"></i>
+	                							<span class="text-dark">Monday-Saturday</span> <br>11am-7pm ET
+	                						</li>
+                							<li>
+                								<i class="icon-calendar"></i>
+                								<span class="text-dark">Sunday</span> <br>11am-6pm ET
+                							</li>
+                						</ul><!-- End .contact-list -->
+                					</div><!-- End .contact-info -->
+                				</div><!-- End .col-sm-5 -->
+                			</div><!-- End .row -->
+                		</div><!-- End .col-lg-6 -->
+                        
+                		<div class="col-lg-6 py-2">
+							<h2 class="title mb-1">Got Any Questions?</h2><!-- End .title mb-2 -->
+							<p class="mb-2">Use the form below to get in touch with the sales team</p>
+						
+							<form action="#" class="contact-form mb-3">
+								{% csrf_token %}
+								<div class="row">
+									<div class="form-group ">
+						
+										<input type="text" class="input" id="cname" name="cname" placeholder="Name *" required>
+									</div><!-- End .col-sm-6 -->
+						
+									<div class="form-group ">
+									
+										<input type="email" class="input" id="cemail" name="cemail" placeholder="Email *" required>
+									</div><!-- End .col-sm-6 -->
+								</div><!-- End .row -->
+						
+								<div class="row">
+									<div class="form-group ">
+									
+										<input type="tel" class="input" id="cphone" name="cphone" placeholder="Phone">
+									</div><!-- End .col-sm-6 -->
+						
+									<div class="form-group ">
+									
+										<input type="text" class="input" id="csubject" name="csubject" placeholder="Subject">
+									</div><!-- End .col-sm-6 -->
+                                    <div class="form-group ">
+                                        <textarea class="input" cols="30" rows="4" id="cmessage" name="cmessage" placeholder="Message *" required></textarea>
+						
+                                    </div><!-- End .col-sm-6 -->
+								</div><!-- End .row -->
+						
+							
+								<button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm">
+									<span>SUBMIT</span>
+									<i class="icon-long-arrow-right"></i>
+								</button>
+							</form><!-- End .contact-form -->
+						</div><!-- End .col-lg-6 -->
+
+
+
+                	</div><!-- End .row -->
+
+                    
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+         
+                <div id="map" style="width: 100%; margin-bottom:150px;">
+                    <!-- Google Map without API key -->
+                    <iframe
+                        src="https://www.google.com/maps?q=RONDA%20QUEMALO,%2011%20-%20BJ%2046512,%20FAURA,%20Valencia,%20Spain&output=embed"
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </div><!-- End #map -->
+                
+      
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<script>
+document.querySelector('.contact-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Show a loading spinner with SweetAlert2
+    Swal.fire({
+        title: 'Sending...',
+        text: 'Please wait while your message is being sent.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // Collect form data
+    const formData = new FormData(this);
+	const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    // Send data to the server via AJAX (using fetch)
+    fetch("{% url 'contact_form' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+			'X-CSRFToken': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        Swal.close(); // Close the loading alert
+
+        if(data.success){
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: data.message,
+                confirmButtonText: 'OK'
+            });
+            // Optionally, reset the form
+            this.reset();
+        } else {
+            // Show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: data.message,
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        Swal.close();
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An unexpected error occurred. Please try again later.',
+            confirmButtonText: 'OK'
+        });
+        console.error('Error:', error);
+    });
+});
+</script>
+  
+
+    {% endblock contents %}     

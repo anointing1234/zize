@@ -1,0 +1,527 @@
+
+{% extends "../core/base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block contents %}
+		
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- shop -->
+					<div class="col-md-4 col-xs-6">
+						<div class="shop">
+							<div class="shop-img">
+								<img src="{% static 'img/electronic_wall_3.jpg' %}" alt="">
+							</div>
+							<div class="shop-body">
+								<h3>Loudspeakers<br>Collection</h3>
+								<a href="{% url 'Loudspeakers' %}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- /shop -->
+
+					<!-- shop -->
+					<div class="col-md-4 col-xs-6">
+						<div class="shop">
+							<div class="shop-img">
+								<img src="{% static 'img/electronic_wall_2.jpg' %}" alt="">
+							</div>
+							<div class="shop-body">
+								<h3>Mixer Console<br>Collection</h3>
+								<a href="{% url 'Mixer_Console' %}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- /shop -->
+
+					<!-- shop -->
+					<div class="col-md-4 col-xs-6">
+						<div class="shop">
+							<div class="shop-img">
+								<img src="{% static 'img/electronic_wall_1.jpeg' %}" alt="">
+							</div>
+							<div class="shop-body">
+								<h3>Turntables<br>Collection</h3>
+								<a href="{% url 'Turntables' %}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- /shop -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">New Products</h3>
+                    <div class="section-nav">
+                        <ul class="section-tab-nav tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab1">Amplifiers</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Turntables</a></li>
+                            <li><a data-toggle="tab" href="#tab3">Loudspeakers</a></li>
+                            <li><a data-toggle="tab" href="#tab4">Digital</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /section title -->
+		
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="products-tabs">
+
+                        <!-- Amplifiers Tab -->
+                        <div id="tab1" class="tab-pane active">
+                            <div class="products-slick" data-nav="#slick-nav-1">
+                                {% for product in Amplifies %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-1" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Amplifiers Tab -->
+
+                        <!-- Turntables Tab -->
+                        <div id="tab2" class="tab-pane">
+                            <div class="products-slick" data-nav="#slick-nav-2">
+                                {% for product in Turnatables %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-2" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Turntables Tab -->
+
+                        <!-- Loudspeakers Tab -->
+                        <div id="tab3" class="tab-pane">
+                            <div class="products-slick" data-nav="#slick-nav-3">
+                                {% for product in Loudspeakers %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-3" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Loudspeakers Tab -->
+
+                        <!-- Mixer Console Tab -->
+                        <div id="tab4" class="tab-pane">
+                            <div class="products-slick" data-nav="#slick-nav-4">
+                                {% for product in Digital %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-4" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Mixer Console Tab -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- Products tab & slick -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+		<!-- HOT DEAL SECTION -->
+		<div id="hot-deal" class="section bg-dark">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="hot-deal">
+							<ul class="hot-deal-countdown">
+								<li>
+									<div>
+										<h3>02</h3>
+										<span>Days</span>
+									</div>
+								</li>
+								<li>
+									<div>
+										<h3>10</h3>
+										<span>Hours</span>
+									</div>
+								</li>
+								<li>
+									<div>
+										<h3>34</h3>
+										<span>Mins</span>
+									</div>
+								</li>
+								<li>
+									<div>
+										<h3>60</h3>
+										<span>Secs</span>
+									</div>
+								</li>
+							</ul>
+							<h2 class="text-uppercase text-white">hot deal this week</h2>
+							<p>New Collection Up to 50% OFF</p>
+							<a class="primary-btn cta-btn" href="#">Shop now</a>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /HOT DEAL SECTION -->
+
+		<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">Top Products</h3>
+                    <div class="section-nav">
+                        <ul class="section-tab-nav tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab1">Amplifiers</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Turntables</a></li>
+                            <li><a data-toggle="tab" href="#tab3">Loudspeakers</a></li>
+                            <li><a data-toggle="tab" href="#tab4">Digital</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /section title -->
+		
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="products-tabs">
+
+                        <!-- Amplifiers Tab -->
+                        <div id="tab1" class="tab-pane active">
+                            <div class="products-slick" data-nav="#slick-nav-1">
+                                {% for product in Amplifies %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-1" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Amplifiers Tab -->
+
+                        <!-- Turntables Tab -->
+                        <div id="tab2" class="tab-pane">
+                            <div class="products-slick" data-nav="#slick-nav-2">
+                                {% for product in Turnatables %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                    data-product-id="{{ product.id }}"
+                    data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                    data-csrf-token="{{ csrf_token }}">
+                <span class="btn-text">add to cart</span>
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-2" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Turntables Tab -->
+
+                        <!-- Loudspeakers Tab -->
+                        <div id="tab3" class="tab-pane">
+                            <div class="products-slick" data-nav="#slick-nav-3">
+                                {% for product in Loudspeakers %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-3" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Loudspeakers Tab -->
+
+                        <!-- Mixer Console Tab -->
+                        <div id="tab4" class="tab-pane">
+                            <div class="products-slick" data-nav="#slick-nav-4">
+                                {% for product in Digital %}
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        <div class="product-label">
+                                           
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{{ product.product_category }}</p>
+                                        <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                                        <h4 class="product-price">€{{ product.price|floatformat:2|intcomma }}</h4>
+                                        <div class="product-rating">
+                                            {% for i in "12345" %}
+                                                <i class="fa fa-star{% if i > product.rating %}-o{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="btn-product btn-cart add-to-cart-btn" type="button"
+                                        data-product-id="{{ product.id }}"
+                                        data-add-to-cart-url="{% url 'add_to_cart' product.id %}"
+                                        data-csrf-token="{{ csrf_token }}">
+                                    <span class="btn-text">add to cart</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="slick-nav-4" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /Mixer Console Tab -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- Products tab & slick -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+		
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+		{% endblock contents %}     
