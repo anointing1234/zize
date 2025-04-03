@@ -24,6 +24,7 @@ from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',include('zeta.urls')),
     path('shop/',include('zeta.urls')),
     path('accounts/',include('accounts.urls')),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
